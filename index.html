@@ -1,43 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>3D Menu Experience</title>
+    <title>Cafe Experience</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
-        body { margin: 0; background-color: #f4f4f4; font-family: 'Helvetica', sans-serif; }
+        /* CSS Variables - Change colors here easily */
+        :root {
+            --bg-color: #f8f5f0; /* A warm, creamy off-white */
+            --accent-color: #d35400; /* A warm burnt orange/terracotta for the button */
+            --text-dark: #2c3e50;
+        }
+
+        body { 
+            margin: 0; 
+            background-color: var(--bg-color); 
+            font-family: 'Poppins', sans-serif; 
+        }
         
-        /* The 3D Container */
-        model-viewer { width: 100%; height: 70vh; background-color: #ffffff; }
+        /* Making the 3D viewer take up most of the screen */
+        model-viewer { 
+            width: 100%; 
+            height: 75vh;
+            background-color: var(--bg-color); 
+            /* This adds a subtle radial gradient so it's not dead flat */
+            background-image: radial-gradient(circle at 50% 50%, #ffffff, var(--bg-color));
+        }
         
-        /* The Bottom Section */
+        /* The polished card at the bottom */
         .card {
             background: white;
-            border-radius: 20px 20px 0 0;
-            padding: 20px;
+            border-radius: 25px 25px 0 0;
+            padding: 25px 20px;
             text-align: center;
             position: fixed;
             bottom: 0;
             width: 100%;
-            box-shadow: 0px -5px 10px rgba(0,0,0,0.1);
+            box-sizing: border-box; /* Ensures padding doesn't break width */
+            box-shadow: 0px -10px 20px rgba(0,0,0,0.05);
         }
-        h1 { margin: 0; font-size: 22px; color: #333; }
-        p { color: #666; font-size: 14px; margin-top: 5px; }
         
-        /* The AR Button */
+        h1 { 
+            margin: 0; 
+            font-size: 24px; 
+            font-weight: 600;
+            color: var(--text-dark); 
+        }
+        
+        p { 
+            color: #7f8c8d; 
+            font-size: 15px; 
+            margin-top: 8px; 
+            line-height: 1.4;
+        }
+        
+        /* The premium button */
         button {
-            margin-top: 15px;
-            padding: 12px 25px;
+            margin-top: 20px;
+            padding: 14px 30px;
             font-size: 16px;
-            font-weight: bold;
-            background: #ff4757; /* Change this color to match the cafe branding */
+            font-weight: 600;
+            background: var(--accent-color);
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+            transition: transform 0.2s ease; /* Smooth click effect */
+            box-shadow: 0 4px 15px rgba(211, 84, 0, 0.3);
         }
+        button:active {
+            transform: scale(0.98); /* Slight shrink on click */
+        }
+        
+        /* Hide the ugly default AR button to use our custom one */
+        #default-ar-button { display: none; }
     </style>
 </head>
 <body>
@@ -45,18 +85,24 @@
     <model-viewer 
         src="bottle.glb" 
         ios-src="food.usdz"
-        poster="https://via.placeholder.com/400x300.png?text=Loading+3D+Yum..." 
         alt="A 3D model of our special dish"
-        shadow-intensity="1"
+        
+        ar
+        ar-modes="webxr scene-viewer quick-look" 
         camera-controls
         auto-rotate
-        ar>
+        
+        shadow-intensity="1.5"
+        shadow-softness="0.8"
+        exposure="1.2"
+        environment-image="https://modelviewer.dev/shared-assets/environments/moon_1k.hdr"
+        >
     </model-viewer>
 
     <div class="card">
-        <h1>Chef's Special</h1>
-        <p>Tap the button below to place this on your table!</p>
-        <button onclick="document.querySelector('model-viewer').activateAR()">View in AR 🍔</button>
+        <h1>Signature Cold Coffee</h1>
+        <p>See it on your table before you order. Tap below to experience it in AR.</p>
+        <button onclick="document.querySelector('model-viewer').activateAR()">View in your space ☕</button>
     </div>
 
 </body>
